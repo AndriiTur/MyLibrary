@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,13 +8,17 @@ using System.Threading.Tasks;
 namespace MyLibrary
 {
     public enum MyArraySortDirection { LowToHight, HightToLow };
-    public enum ArraySortMethod { SortSelection, SortInsertion, SortBuble,
-                                  SortShells, QuickSort };
+    public enum ArraySortMethod
+    {
+        SortSelection, SortInsertion, SortBuble,
+        SortShells, QuickSort
+    };
 
 
 
     public class MyArray<T> where T : IComparable
-    {
+    { 
+
         public static bool ArrayCompareInt(T[] strArray1, T[] strArray2)
         {
             if (strArray1.Length != strArray2.Length)
@@ -38,7 +43,7 @@ namespace MyLibrary
         }
 
 
-        public static T[] AddArrayInt(T[] arr, T volume,int vol )
+        public static T[] AddArrayInt(T[] arr, T volume, int vol)
         {
             T[] arrResult = new T[arr.Length + 1];
 
@@ -58,10 +63,10 @@ namespace MyLibrary
                 return arrResult;
             }
             for (int i = 0; i < vol; i++)
-                    arrResult[i] = arr[i];
-                arrResult[vol] = volume;
-                for (var i = vol + 1; vol < arr.Length; i++)
-                    arrResult[i] = arr[i - 1];
+                arrResult[i] = arr[i];
+            arrResult[vol] = volume;
+            for (var i = vol + 1; vol < arr.Length; i++)
+                arrResult[i] = arr[i - 1];
             return arrResult;
         }
 
@@ -170,30 +175,30 @@ namespace MyLibrary
             int j = 0;
             T temp;
             int step = 0;
-                for (step = arrayIn.Length-1; step > 0; step--)
+            for (step = arrayIn.Length - 1; step > 0; step--)
+            {
+                i = 0;
+                for (i = 0; i < arrayIn.Length - 1; i++)
                 {
-                    i = 0;
-                    for (i = 0; i < arrayIn.Length-1; i++)
-                    {
-                        j = i + step;
+                    j = i + step;
                     if (j > arrayIn.Length - 1)
                         j = arrayIn.Length - 1;
-                        if (((arrayIn[i].CompareTo(arrayIn[j]) > 0) && (direction == MyArraySortDirection.LowToHight))
-                            ||
-                            ((arrayIn[i].CompareTo(arrayIn[j]) < 0) && (direction == MyArraySortDirection.HightToLow)))
-                        {
-                            temp = arrayIn[i];
-                            arrayIn[i] = arrayIn[j];
-                            arrayIn[j] = temp;
-                        }
+                    if (((arrayIn[i].CompareTo(arrayIn[j]) > 0) && (direction == MyArraySortDirection.LowToHight))
+                        ||
+                        ((arrayIn[i].CompareTo(arrayIn[j]) < 0) && (direction == MyArraySortDirection.HightToLow)))
+                    {
+                        temp = arrayIn[i];
+                        arrayIn[i] = arrayIn[j];
+                        arrayIn[j] = temp;
                     }
                 }
-            return ;
+            }
+            return;
         }
 
         public static void ArrayQuickSort(T[] arrayIn, MyArraySortDirection direction)
         {
-             Quicksort(arrayIn,0,arrayIn.Length-1,direction);
+            Quicksort(arrayIn, 0, arrayIn.Length - 1, direction);
         }
         private static void Quicksort(T[] elements, int left, int right, MyArraySortDirection direction)
         {
@@ -207,10 +212,10 @@ namespace MyLibrary
             {
                 case MyArraySortDirection.HightToLow:
 
-            while (i <= j)
+                    while (i <= j)
                     {
                         while (elements[i].CompareTo(pivot) > 0)
-                            
+
                         {
                             i++;
                         }
@@ -256,11 +261,11 @@ namespace MyLibrary
             // Recursive calls
             if (left < j)
             {
-                Quicksort(elements, left, j,direction);
+                Quicksort(elements, left, j, direction);
             }
             if (i < right)
             {
-                Quicksort(elements, i, right,direction);
+                Quicksort(elements, i, right, direction);
             }
         }
         public static void ArraySort(T[] arrayIn, MyArraySortDirection direction,
@@ -286,9 +291,16 @@ namespace MyLibrary
                     break;
                 default:
                     throw new NotSupportedException();
-                    break;
-            }
+                    //break;
 
+            }
         }
+
+      
+    
+   
+
+       
     }
+
 }

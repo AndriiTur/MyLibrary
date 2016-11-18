@@ -234,5 +234,16 @@ namespace MyLibrary
             }
             return arrResult;
         }
+
+        public static string DelFromString(string strIn, char val)
+        {
+            var resultStr = "";
+                  for (int i = 0; i < strIn.Length; i++)
+                {
+                    if (strIn[i] != val)
+                        resultStr = resultStr + strIn[i];
+                }
+            return resultStr;
+        }
     }
 }

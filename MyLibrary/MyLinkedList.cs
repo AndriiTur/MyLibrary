@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,8 +7,11 @@ using System.Threading.Tasks;
 
 namespace MyLibrary
 {
-    
-    public class MyLinkedListNode<T>
+  
+
+   
+
+    public class MyLinkedListNode<T> 
     {
         private T value;
         internal MyLinkedListNode<T> previous;
@@ -24,17 +28,20 @@ namespace MyLibrary
             this.value = value;
             this.ovner = ovner;
         }
-
-        
     }
-
-    public class MyLinkedList<T>
+         
+    public class MyLinkedList<T> : IEnumerable<T>
     {
         public const string MessageError = "Error";
         
         private MyLinkedListNode<T> first;
         private MyLinkedListNode<T> last;
         private int count;
+
+        internal IEnumerator<T> GetEnumerator()
+        {
+            throw new NotImplementedException();
+        }
 
         public int Count { get { return count; } }
         public MyLinkedListNode<T> First { get { return first; } }
@@ -167,6 +174,66 @@ namespace MyLibrary
                 node = node.Next;
             }
             return arrResult;
+        }
+
+        IEnumerator<T> IEnumerable<T>.GetEnumerator()
+        {
+            return new MyLinkedListEnum<T>(this);
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return new MyLinkedListEnum<T>(this);
+        }
+    }
+
+    public class MyLinkedListEnum<T> : IEnumerable<T> , IEnumerator<T>
+    {
+        public MyLinkedListNode<T> Node;
+        public MyLinkedList<T> ListR;
+        public MyLinkedListEnum(MyLinkedList<T> List)
+        {
+            Node = List.First.Previous;
+            ListR = List;
+        }
+
+        T IEnumerator<T>.Current { get { return Node.Value;}}
+
+        object IEnumerator.Current { get { return Node.Value; } }
+
+        
+        public IEnumerator<T> GetEnumerator()
+        {
+            return ((IEnumerable<T>)ListR).GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return ((IEnumerable<T>)ListR).GetEnumerator();
+        }
+
+        void IDisposable.Dispose()
+        {
+            Node = null;
+            ListR = null;
+        }
+
+        bool IEnumerator.MoveNext()
+        {
+            if (Node == ListR.Last)
+            {
+                return false;
+            }
+            if (Node == null)
+                Node = ListR.First;
+            else
+                Node = Node.Next;
+            return true;
+        }
+
+        void IEnumerator.Reset()
+        {
+            Node = null;
         }
     }
 }
